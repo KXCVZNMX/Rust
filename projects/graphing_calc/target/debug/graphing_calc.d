@@ -1,1 +1,1 @@
-/Users/adeadman/Desktop/Rust/projects/graphing_calc/target/debug/graphing_calc: /Users/adeadman/Desktop/Rust/projects/graphing_calc/src/lib.rs /Users/adeadman/Desktop/Rust/projects/graphing_calc/src/main.rs
+/mnt/c/Users/lucia/Desktop/Rust/projects/graphing_calc/target/debug/graphing_calc: /mnt/c/Users/lucia/Desktop/Rust/projects/graphing_calc/src/lib.rs /mnt/c/Users/lucia/Desktop/Rust/projects/graphing_calc/src/main.rs
