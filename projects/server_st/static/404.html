@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAGE NOT FOUND</title>
+    <script>
+        let count = 5;
+        const Interval = setInterval(function() {
+            document.getElementById("countdown").innerText = count;
+            count--;
+            if (count < 0) {
+                clearInterval(Interval);
+                window.location.href = "index";
+            }
+        }, 1000);
+    </script>
+    <style>
+        .header_404 {
+            text-align: center;
+            font-size: large;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+        
+        .text_404 {
+            text-align: center;
+            font-size: medium;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+        
+        .count_404 {
+            font-size: medium;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            color: blueviolet;
+            font-style: italic;
+        }
+
+        p {
+            display: inline;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header_404">
+        <h1>
+            PAGE NOT FOUND
+        </h1>
+    </div>
+    <div class="text_404">
+        <p>
+            You will be redirected in <div class="count_404"><span id="countdown">5</span></div>
+        <p>
+    </div>
+</body>
+</html>
