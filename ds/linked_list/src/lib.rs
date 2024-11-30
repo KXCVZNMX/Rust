@@ -431,21 +431,21 @@ impl<T> ListNode<T> {
     }
 
     /// Merges two sorted linked lists
-    /// 
+    ///
     /// Takes two linked list with type `Option<Box<ListNode<i32>>>`
     /// and outputs a single list with the same type
-    /// 
+    ///
     /// # Example
-    /// 
+    ///
     /// ```
     /// let mut l1 = ListNode::from_vec(vec![1, 3]);
     /// let mut l2 = ListNode::from_vec(vec![2, 4]);
     /// let mut output = ListNode::merge(l1, l2);
     /// output.print();
     /// ```
-    /// 
+    ///
     /// ## Output
-    /// 
+    ///
     /// ```
     /// 1 -> 2 -> 3 -> 4;
     /// ```
@@ -466,10 +466,10 @@ impl<T> ListNode<T> {
         l1
     }
 
-    /// Splits the list into given parts 
-    /// 
+    /// Splits the list into given parts
+    ///
     /// # Example
-    /// 
+    ///
     /// ```
     /// let mut list = ListNode::from_vec(vec![1, 2, 3, 4]);
     /// let (l1, l2) = {
@@ -482,9 +482,9 @@ impl<T> ListNode<T> {
     /// l1.print();
     /// l2.print();
     /// ```
-    /// 
-    /// ## Output 
-    /// 
+    ///
+    /// ## Output
+    ///
     /// ```
     /// l1 = 1 -> 2
     /// l2 = 3 -> 4
@@ -523,18 +523,18 @@ impl<T> ListNode<T> {
         parts
     }
 
-    /// Sorts the linked list using merge sort and 
+    /// Sorts the linked list using merge sort and
     /// returns a new sorted linked list
-    /// 
+    ///
     /// # Example
-    /// 
+    ///
     /// ```
     /// let list ListNode::sort(Some(ListNode::from_vec(vec![1, 4, 2, 5, 3])));
     /// list.display();
     /// ```
-    /// 
+    ///
     /// ## Output
-    /// 
+    ///
     /// ```
     /// 1 -> 2 -> 3 -> 4 -> 5
     /// ```
