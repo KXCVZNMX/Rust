@@ -566,60 +566,13 @@ pub mod linked_list {
     }
 }
 
-pub mod bst {
-    #[derive(Debug, Clone)]
-    pub struct BST {
-        pub left: Option<Box<BST>>,
-        pub right: Option<Box<BST>>,
-        val: i32,
-    }
-
-    impl BST {
-        pub fn new(val: i32) -> Box<Self> {
-            Box::new(BST {
-                val,
-                left: None,
-                right: None,
-            })
-        }
-
-        pub fn from_vec(list: &Vec<i32>) -> Box<Self> {
-            let mut cloned_sort_list = list.clone();
-            cloned_sort_list.sort_unstable();
-            let mid_index = cloned_sort_list.len() / 2;
-            Box::new(BST {
-                val: cloned_sort_list[mid_index].clone(),
-                left: {
-                    let cloned = &cloned_sort_list[..mid_index].to_vec();
-                    Some(Self::from_vec(cloned))
-                },
-                right: {
-                    let cloned = &cloned_sort_list[mid_index + 1..].to_vec();
-                    Some(Self::from_vec(cloned))
-                },
-            })
-        }
-
-        pub fn print(&self, depth: usize) {
-            if let Some(ref right) = self.right {
-                right.print(depth + 1);
-            }
-            println!("{:>width$}", self.val, width = depth * 4);
-
-            if let Some(ref left) = self.left {
-                left.print(depth + 1);
-            }
-        }
-    }
-}
 
 #[cfg(test)]
 mod test {
-    use crate::bst::BST;
     use crate::linked_list::ListNode;
     use super::*;
 
-
+    #[test]
     fn test_linked_list() {
         let mut l1 = ListNode::new(1);
         let temp = ListNode::from_vec(vec![2, 3, 4, 5]);
@@ -690,12 +643,5 @@ mod test {
         let l18 = ListNode::from_vec(vec![1, 5, 3, 2, 4]);
         let l18 = ListNode::<i32>::sort(Some(l18)).unwrap();
         assert_eq!(l18, ListNode::from_vec(vec![1, 2, 3, 4, 5]));
-    }
-
-    #[test]
-    fn test_bst() {
-        let b1 = BST::from_vec(&vec![1, 2, 3, 4, 5, ]);
-        println!("{:#?}", b1);
-        assert_eq!(1, 2);
     }
 }

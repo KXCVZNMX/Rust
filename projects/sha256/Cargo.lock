@@ -199,7 +199,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "sha256lib"
+name = "sha256"
 version = "0.1.0"
 dependencies = [
  "rand",
