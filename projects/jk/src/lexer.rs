@@ -1,8 +1,20 @@
+use crate::lexer::ArithmeticOps::Sub;
+
+#[derive(Debug, Clone)]
+pub enum ArithmeticOps {
+    Add,
+    Sub,
+    Mul,
+    Div,
+}
+
 #[derive(Debug, Clone)]
 pub enum TokenType {
     Return,
     Int,
     Semi,
+    AOps(ArithmeticOps),
+    Var,
 }
 
 #[derive(Debug, Clone)]
@@ -15,7 +27,6 @@ pub struct Token {
 pub struct Tokeniser {
     src: String,
     tokens: Option<Vec<Token>>,
-    index: usize,
 }
 
 impl Tokeniser {
@@ -23,8 +34,18 @@ impl Tokeniser {
         Tokeniser {
             src,
             tokens: None,
-            index: 0
         }
+    }
+
+    fn is_valid_token(token: &str) -> Option<Token> {
+        const VALID_TOKEN: Vec<(&str, TokenType)> = vec![
+            ("return", TokenType::Return),
+            (";", TokenType::Semi),
+            ("+", TokenType::AOps(ArithmeticOps::Add)),
+            ("-", TokenType::AOps(ArithmeticOps::Sub)),
+            ("*", TokenType::AOps(ArithmeticOps::Mul)),
+            ("/", TokenType::AOps(ArithmeticOps::Div)),
+        ];
     }
 
     pub fn tokenise(&mut self) {
@@ -41,21 +62,5 @@ impl Tokeniser {
         }
 
         self.tokens = Some(ret);
-    }
-
-    fn peek(&self, ahead: usize) -> Option<Vec<Token>> {
-        if self.index + ahead >= self.src.len() {
-            return None; //potentially add some error message here. Not sure how this would work yet
-        }
-        let mut ret: Vec<Token> = Vec::new();
-        for i in self.index + 1..self.index + ahead + 1 {
-            ret.push(self.tokens.clone().unwrap()[i].clone());
-        }
-
-        Some(ret)
-    }
-
-    fn consume(&mut self, ahead: usize) {
-        self.index += ahead;
     }
 }
