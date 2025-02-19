@@ -1,5 +1,3 @@
-use crate::lexer::ArithmeticOps::Sub;
-
 #[derive(Debug, Clone)]
 pub enum ArithmeticOps {
     Add,
@@ -9,12 +7,21 @@ pub enum ArithmeticOps {
 }
 
 #[derive(Debug, Clone)]
+pub enum Datatype {
+    Int,
+    Float,
+}
+
+#[derive(Debug, Clone)]
 pub enum TokenType {
     Return,
     Int,
+    Float,
     Semi,
     AOps(ArithmeticOps),
     Var,
+    Assignment,
+    TypeId(Datatype),
 }
 
 #[derive(Debug, Clone)]
@@ -24,40 +31,41 @@ pub struct Token {
 }
 
 #[derive(Debug)]
-pub struct Tokeniser {
+pub struct Tokens {
     src: String,
     tokens: Option<Vec<Token>>,
 }
 
-impl Tokeniser {
+impl Tokens {
     pub fn new(src: String) -> Self {
-        Tokeniser {
+        Tokens {
             src,
             tokens: None,
         }
     }
 
     fn is_valid_token(token: &str) -> Option<Token> {
-        const VALID_TOKEN: Vec<(&str, TokenType)> = vec![
-            ("return", TokenType::Return),
-            (";", TokenType::Semi),
-            ("+", TokenType::AOps(ArithmeticOps::Add)),
-            ("-", TokenType::AOps(ArithmeticOps::Sub)),
-            ("*", TokenType::AOps(ArithmeticOps::Mul)),
-            ("/", TokenType::AOps(ArithmeticOps::Div)),
-        ];
+        match token {
+            "return" => Some(Token {val: Some("return".to_string()), token: TokenType::Return}),
+            ";" => Some(Token {val: None, token: TokenType::Semi}),
+            "+" => Some(Token {val: None, token: TokenType::AOps(ArithmeticOps::Add)}),
+            "-" => Some(Token {val: None, token: TokenType::AOps(ArithmeticOps::Sub)}),
+            "*" => Some(Token {val: None, token: TokenType::AOps(ArithmeticOps::Mul)}),
+            "/" => Some(Token {val: None, token: TokenType::AOps(ArithmeticOps::Div)}),
+            ":=" => Some(Token {val: None, token: TokenType::Assignment}),
+            "int" => Some(Token {val: None, token: TokenType::TypeId(Datatype::Int)}),
+            "float" => Some(Token {val: None, token: TokenType::TypeId(Datatype::Float)}),
+            _ if token.parse::<i128>().is_ok() => Some(Token { token: TokenType::Int, val: Some(token.to_string())}),
+            _ if token.parse::<f64>().is_ok() => Some(Token { token: TokenType::Float, val: Some(token.to_string())}),
+            _ => Some(Token {val: Some(token.to_string()), token: TokenType::Var}),
+        }
     }
 
     pub fn tokenise(&mut self) {
         let tokens: Vec<_> = self.src.split_whitespace().collect();
         let mut ret: Vec<Token> = Vec::new();
         for s in tokens {
-            let val: Token = match s {
-                "return" => Token { token: TokenType::Return, val: None},
-                ";" => Token { token: TokenType::Semi, val: None},
-                _ if s.parse::<i128>().is_ok() => Token{ token: TokenType::Int, val: Some(s.to_string())},
-                _ => panic!("invalid token type: {}", s),
-            };
+            let val: Token = Self::is_valid_token(s).unwrap();
             ret.push(val);
         }
 
