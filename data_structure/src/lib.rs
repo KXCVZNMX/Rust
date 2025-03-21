@@ -566,50 +566,10 @@ pub mod ds {
             }
         }
     }
-
-    pub mod bst {
-        use std::rc::Rc;
-        use std::cell::RefCell;
-
-        #[derive(Debug, Clone)]
-        pub struct BST<T> {
-            pub val: T,
-            pub left: Option<Rc<RefCell<BST<T>>>>,
-            pub right: Option<Rc<RefCell<BST<T>>>>
-        }
-
-        impl<T> BST<T> {
-            pub fn new(val: T, left: Option<Rc<RefCell<BST<T>>>>, right: Option<Rc<RefCell<BST<T>>>>) -> Rc<RefCell<BST<T>>> {
-                Rc::new(RefCell::new(Self {
-                    val,
-                    left,
-                    right,
-                }))
-            }
-
-            pub fn from_vec(v: &Vec<T>) -> Result<Option<Rc<RefCell<BST<T>>>>, &'static str>
-            where T:
-                Clone + Ord
-            {
-
-                let mid = v.len() / 2;
-                let root = BST::new(v[mid].clone(), None, None);
-
-                if v.len() > 2 {
-                    root.borrow_mut().left = BST::from_vec(&v[..mid].to_vec())?;
-                    root.borrow_mut().right = BST::from_vec(&v[mid + 1..].to_vec())?;
-                }
-
-                Ok(Some(root))
-            }
-        }
-    }
 }
 
 #[cfg(test)]
 mod test {
-    use std::ops::Deref;
-    use crate::ds::bst::BST;
     use crate::ds::linked_list::ListNode;
     use super::*;
 
@@ -684,23 +644,5 @@ mod test {
         let l18 = ListNode::from_vec(vec![1, 5, 3, 2, 4]);
         let l18 = ListNode::<i32>::sort(Some(l18)).unwrap();
         assert_eq!(l18, ListNode::from_vec(vec![1, 2, 3, 4, 5]));
-    }
-
-    #[test]
-    fn test_bst() {
-        let b1 = BST::new(
-            4,
-            Some(BST::new(2, Some(BST::new(1, None, None)), Some(BST::new(3, None, None)))),
-            Some(BST::new(6, Some(BST::new(5, None, None)), Some(BST::new(7, None, None)))),
-        );
-        println!("{} {} {} {} {} {} {}",
-                 b1.borrow().deref().val,
-                 b1.borrow().deref().clone().left.unwrap().borrow().val,
-                 b1.borrow().deref().clone().left.unwrap().borrow().left.clone().unwrap().borrow().val,
-                 b1.borrow().deref().clone().left.unwrap().borrow().right.clone().unwrap().borrow().val,
-                 b1.borrow().deref().clone().right.unwrap().borrow().val,
-                 b1.borrow().deref().clone().right.unwrap().borrow().left.clone().unwrap().borrow().val,
-                 b1.borrow().deref().clone().right.unwrap().borrow().right.clone().unwrap().borrow().val,
-        );
     }
 }
