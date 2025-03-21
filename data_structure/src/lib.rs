@@ -2,7 +2,8 @@
 //! implemented by [KXCVZNMX](https://github.com/KXCVZNMX)
 //!
 //! Data structures currently implemented:
-//! * [Singly Linked-List](linked_list)
+//! * Linked List
+//! * Queue (with linked list)
 
 pub mod ds {
     /// This module provides a Slngly Linked List struct
@@ -566,12 +567,103 @@ pub mod ds {
             }
         }
     }
+
+    /// This module provides a Stack struct named `Stack`
+    ///
+    /// Functions Implemented:
+    /// * [new](struct.Stack.html#method.new) -> `Self`
+    /// * [from_vec](struct.Stack.html#method.from_vec) -> `Self`
+    /// * [print](struct.Stack.html#method.print) -> `()`
+    /// * [pop](struct.Stack.html#method.pop) -> `()`
+    /// * [push](struct.Stack.html#method.push) -> `()`
+    /// * [is_empty](struct.Stack.html#method.is_empty) -> `bool`
+    /// * [peak](struct.Stack.html#method.peak) -> `T`
+    /// * [clear](struct.Stack.html#method.clear) -> `()`
+    pub mod stack {
+        use std::fmt::Display;
+        use crate::ds::linked_list::ListNode;
+
+        #[derive(Debug, Clone)]
+        pub struct Stack<T> {
+            pub list: Box<ListNode<T>>,
+            pub len: usize
+        }
+
+        impl<T> Stack<T>
+        where T:
+            Display
+        {
+            pub fn new(val: T) -> Self {
+                Stack {
+                    list: ListNode::new(val),
+                    len: 1
+                }
+            }
+            pub fn from_vec(vec: Vec<T>) -> Self
+            where T:
+                Clone
+            {
+                let temp = vec.clone();
+                Stack {
+                    list: ListNode::from_vec(temp),
+                    len: vec.len()
+                }
+            }
+
+            pub fn print(&self) {
+                let separator = "+---".repeat(self.len) + "+";
+
+                println!("{}", separator);
+
+                for i in 0..self.len {
+                    print!("| {:^2}", self.list[i]); // Center align numbers in a 3-width space
+                }
+
+                println!("|");
+                println!("{}", separator);
+                println!("  ↑");
+                println!(" HEAD");
+            }
+
+            pub fn pop(&mut self) {
+                self.list.pop();
+                self.len -= 1;
+            }
+
+            pub fn push(&mut self, val: T)
+            where T:
+                Clone
+            {
+                self.list.push(val);
+                self.len += 1;
+            }
+
+            pub fn is_empty(&self) -> bool {
+                self.len == 0
+            }
+
+            pub fn clear(&mut self)
+            where T:
+                Default
+            {
+                self.list = ListNode::new(T::default());
+                self.len = 1;
+            }
+
+            pub fn peak(&self) -> T
+            where T:
+                Clone
+            {
+                self.list.val.clone()
+            }
+        }
+    }
 }
 
 #[cfg(test)]
 mod test {
     use crate::ds::linked_list::ListNode;
-    use super::*;
+    use crate::ds::stack::Stack;
 
     #[test]
     fn test_linked_list() {
@@ -644,5 +736,20 @@ mod test {
         let l18 = ListNode::from_vec(vec![1, 5, 3, 2, 4]);
         let l18 = ListNode::<i32>::sort(Some(l18)).unwrap();
         assert_eq!(l18, ListNode::from_vec(vec![1, 2, 3, 4, 5]));
+    }
+
+    #[test]
+    fn test_stack() {
+        let mut s1 = Stack::from_vec(vec![1, 1, 2, 3, 4, 5]);
+        s1.pop();
+        assert_eq!(s1.list, Stack::from_vec(vec![1, 2, 3, 4, 5]).list);
+
+        let mut s2 = Stack::from_vec(vec![2, 3, 4, 5]);
+        s2.push(1);
+        assert_eq!(s2.list, Stack::from_vec(vec![1, 2, 3, 4, 5]).list);
+
+        let s3 = Stack::from_vec(vec![1, 2, 3, 4, 5]);
+        let comp = s3.peak();
+        assert_eq!(comp, 1);
     }
 }
