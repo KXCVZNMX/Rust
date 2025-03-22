@@ -3,7 +3,7 @@
 //!
 //! Data structures currently implemented:
 //! * Linked List
-//! * Queue (with linked list)
+//! * Stack (with linked list)
 
 /// Module Data Structure
 pub mod ds {
