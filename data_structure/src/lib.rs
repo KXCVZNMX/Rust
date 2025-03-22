@@ -5,6 +5,7 @@
 //! * Linked List
 //! * Queue (with linked list)
 
+/// Module Data Structure
 pub mod ds {
     /// This module provides a Slngly Linked List struct
     /// named `ListNode`
@@ -30,6 +31,7 @@ pub mod ds {
         use std::ops::{Index, IndexMut};
         use std::thread;
 
+        /// ListNode implementation
         #[derive(Clone, Debug)]
         pub struct ListNode<T> {
             pub val: T,
@@ -582,6 +584,7 @@ pub mod ds {
         use std::fmt::Display;
         use crate::ds::linked_list::ListNode;
 
+        /// Stack implementation
         #[derive(Debug, Clone)]
         pub struct Stack<T> {
             pub list: Box<ListNode<T>>,
